@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Autoplay } from 'swiper'
-import 'swiper/scss'
-import 'swiper/scss/pagination'
+import 'swiper/scss';
+import 'swiper/scss/navigation';
+import 'swiper/scss/pagination';
 import { ref } from 'vue'
 
 const swiperTextObj = ref([
@@ -36,8 +37,21 @@ const swiperTextObj = ref([
 
 <template>
 	<div class="slider">
-		<Swiper :modules="[Pagination, Navigation, Autoplay]" :pagination="{ clickable: true }" :space-between="20"
-			:loop="true">
+		<div class="container" style="position: relative">
+			<ul class="menu-path">
+				<li class="menu-path__item">Главная</li>
+				<li class="menu-path__item">Продукты</li>
+				<li class="menu-path__item">Краски</li>
+			</ul>
+		</div>
+		<Swiper :modules="[Pagination, Navigation, Autoplay]" :navigation="{ nextEl: '.next-arrow' }"
+			:pagination="{ clickable: true }" :space-between="20" :loop="true">
+			<div class="next-arrow">
+				<svg width="22" height="42" viewBox="0 0 22 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 41L21 21L1 1" stroke="white" stroke-width="2" stroke-linecap="round"
+						stroke-linejoin="round" />
+				</svg>
+			</div>
 			<SwiperSlide v-for="(text, idx) in swiperTextObj" :key="idx">
 				<div class="slide" :style="{ 'background-image': `url(${text.img})` }">
 					<div class="container" style="width: 1838px; position: relative;">
@@ -59,10 +73,14 @@ const swiperTextObj = ref([
 
 .swiper {
 	height: 56rem;
-}
 
-.swiper-pagination {
-	bottom: 4rem !important;
+	@media (max-width: 56.25em) {
+		height: 42rem;
+	}
+
+	@media (max-width: 37.5em) {
+		display: none;
+	}
 }
 
 .slide {
@@ -112,6 +130,7 @@ const swiperTextObj = ref([
 	align-items: center;
 	gap: 1.9rem;
 	z-index: 50;
+	padding-left: inherit;
 
 	&__item {
 		position: relative;

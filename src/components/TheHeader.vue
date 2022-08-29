@@ -7,10 +7,10 @@ const menuShow = ref(false)
 <template>
 	<div class="container">
 		<header class="header">
-			<div class="logo">
+			<router-link :to="{ name: 'Home' }" class="logo">
 				<h1 class="logo__title">Colors</h1>
 				<div class="logo__dot"></div>
-			</div>
+			</router-link>
 			<div :class="['btn-hamburger', { close: menuShow }]" @click="menuShow = !menuShow">
 				<div class="btn-hamburger__bar"></div>
 				<div class="btn-hamburger__bar"></div>

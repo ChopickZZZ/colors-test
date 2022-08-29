@@ -61,3 +61,56 @@ a:visited {
 	padding: 0 24px;
 	margin: 0 auto;
 }
+
+.swiper .swiper-button-prev {
+	display: none;
+}
+
+.next-arrow {
+	position: absolute;
+	z-index: 105;
+	right: calc(480 / 1920 * 100%);
+	bottom: calc(166 / 520 * 100%);
+	cursor: pointer;
+
+	@media (max-width: 56.25em) {
+		display: none;
+	}
+}
+
+.next-arrow svg {
+	width: 2.2rem;
+	height: 4.2rem;
+}
+
+.swiper .swiper-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: fit-content;
+	left: 50% !important;
+	bottom: 4rem !important;
+	transform: translateX(-50%);
+	padding: 1.3rem 2.4rem;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: 16px;
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	margin: 0 6px 0 0 !important;
+}
+
+.swiper-pagination .swiper-pagination-bullet:last-child {
+	margin: 0 !important;
+}
+
+.swiper-pagination .swiper-pagination-bullet-active {
+	background-color: #fff;
+}
