@@ -25,12 +25,12 @@ const swiperTextObj = ref([
 	{
 		title: 'Краски',
 		text: 'Идеально подходит под цвет стен и других поверхностей. Найди свой идеальный цвет!',
-		img: 'https://main-cdn.sbermegamarket.ru/hlr-system/117/762/384/198/019/600004547074b0.jpeg'
+		img: 'https://fsb.zobj.net/crop.php?r=eXXTG4DBQPgJifZCU3XaWBaXZLBHNu1PKcNT6PwFiXRg8LL0LQRDCDcc-sMvLVFfne_KMHo5X5fTCNDrq7DrWQxsJsG5wMRHrm97jBAoxRZUywT5wqhZU2AF96JMRmd1rsb1gEDMAZzE7LJ7'
 	},
 	{
 		title: 'Краски',
 		text: 'Идеально подходит под цвет стен и других поверхностей. Найди свой идеальный цвет!',
-		img: 'https://zvetnoe.ru/upload/catalog/2017/12/MINIA40114.jpg'
+		img: 'https://images.wallpaperscraft.ru/image/single/tekstura_treshchiny_chernyj_116899_2048x1152.jpg'
 	}
 ])
 </script>
@@ -56,8 +56,8 @@ const swiperTextObj = ref([
 				<div class="slide" :style="{ 'background-image': `url(${text.img})` }">
 					<div class="container" style="width: 1838px; position: relative;">
 						<div class="slide__inner">
-							<h1 class="slide__title">{{ text.title }}</h1>
-							<p class="slide__text">{{ text.text }}</p>
+							<h1 class="slide__title">{{  text.title  }}</h1>
+							<p class="slide__text">{{  text.text  }}</p>
 						</div>
 					</div>
 				</div>

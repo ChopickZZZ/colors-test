@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useCartStore } from '../stores/cart';
+const cartStore = useCartStore()
 
 const menuShow = ref(false)
+const cartToggle = () => cartStore.toggleCart()
 </script>
 
 <template>
@@ -71,7 +74,7 @@ const menuShow = ref(false)
 						</path>
 					</svg>
 				</button>
-				<button class="utils__btn-cart">4</button>
+				<button @click="cartToggle" class="utils__btn-cart">{{ cartStore.cart.length }}</button>
 			</div>
 		</header>
 	</div>

@@ -30,5 +30,6 @@ export const useColorStore = defineStore('colors', () => {
       }, 0)
    }
 
+
    return { colors, filteredColors, filter, fetchColors }
 })

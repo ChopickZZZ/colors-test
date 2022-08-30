@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import ProductCard from './ProductCard.vue';
 import { useColorStore } from '../stores/colors';
-import { ref, computed } from '@vue/reactivity';
+import { useCartStore } from '../stores/cart'
+import { ref, Ref, computed } from '@vue/reactivity';
+import { Filter } from '../types';
 
 const colorStore = useColorStore()
+const cartStore = useCartStore()
 await colorStore.fetchColors()
 const colors = computed(() => colorStore.filteredColors)
 
-const filters = ref([])
+const filters: Ref<Filter[]> = ref([])
 const filter = () => colorStore.filter(filters)
+
+const toggleItem = (id: string) => cartStore.itemToggle(id)
 </script>
 
 <template>
@@ -50,7 +55,7 @@ const filter = () => colorStore.filter(filters)
                </div>
             </div>
             <div class="colors__products">
-               <ProductCard v-for="color in colors" :key="color.id" :item="color" />
+               <ProductCard v-for="color in colors" :key="color.id" :item="color" @toggle="toggleItem" />
             </div>
          </div>
       </section>

@@ -9,7 +9,8 @@ export interface ColorItem {
    createdAt: string,
    exclusive: boolean,
    sale: boolean | number,
-   soldTimes: number
+   soldTimes: number,
+   amountInCart?: number
 }
 
 export type Filter = 'new' | 'avaliable' | 'contract' | 'exclusive' | 'sale'
