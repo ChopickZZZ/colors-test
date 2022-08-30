@@ -15,12 +15,12 @@ const swiperTextObj = ref([
 	{
 		title: 'Краски',
 		text: 'Идеально подходит под цвет стен и других поверхностей. Найди свой идеальный цвет!',
-		img: 'https://spb.zvetnoe.ru/upload/catalog/2015/09/02ART40500006.jpg'
+		img: 'https://oir.mobi/uploads/posts/2019-12/1577794384_1-1.jpg'
 	},
 	{
 		title: 'Краски',
 		text: 'Идеально подходит под цвет стен и других поверхностей. Найди свой идеальный цвет!',
-		img: 'https://www.inpearls.ru/img/pearls/1611026-4990.jpg'
+		img: 'https://w-dog.ru/wallpapers/15/16/294102124978111/tekstura-bumaga-ogon-korichnevyj-zheltyj-bumazhnyj-fon-treshhina-treshhiny.jpg'
 	},
 	{
 		title: 'Краски',
