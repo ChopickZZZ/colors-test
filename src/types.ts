@@ -14,3 +14,4 @@ export interface ColorItem {
 }
 
 export type Filter = 'new' | 'avaliable' | 'contract' | 'exclusive' | 'sale'
+export type Condition = 'expensive' | 'cheap' | 'popular' | 'new'

@@ -3,17 +3,36 @@ import ProductCard from './ProductCard.vue';
 import { useColorStore } from '../stores/colors';
 import { useCartStore } from '../stores/cart'
 import { ref, Ref, computed } from '@vue/reactivity';
-import { Filter } from '../types';
+import { Filter, Condition } from '../types';
 
 const colorStore = useColorStore()
 const cartStore = useCartStore()
 await colorStore.fetchColors()
 const colors = computed(() => colorStore.filteredColors)
 
+const isDropdownActive = ref(false)
 const filters: Ref<Filter[]> = ref([])
-const filter = () => colorStore.filter(filters)
+const condition: Ref<Condition> = ref('expensive')
 
+const filter = () => colorStore.filterColors(filters)
+const sort = () => {
+   setTimeout(() => {
+      colorStore.sortColors(condition)
+      dropdownToggle()
+   })
+}
+
+const dropdownToggle = () => {
+   isDropdownActive.value = !isDropdownActive.value
+   if (document.body.style.overflow === 'hidden') {
+      document.body.style.overflow = 'auto'
+   }
+   else {
+      document.body.style.overflow = 'hidden'
+   }
+}
 const toggleItem = (id: string) => cartStore.itemToggle(id)
+
 </script>
 
 <template>
@@ -46,11 +65,40 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
          </div>
          <div class="colors">
             <div class="colors__top">
-               <div class="colors__amount">{{  colors.length  }} товаров</div>
+               <div class="colors__amount">{{ colors.length }} товаров</div>
                <div class="colors__dropdown dropdown">
-                  <div class="dropdown__category">
-                     <button class="dropdown__btn">Сначала дорогие</button>
-                     <div class="dropdown__triangle"></div>
+                  <div class="dropdown__select-box">
+                     <div class="dropdown__options-container" v-if="isDropdownActive">
+                        <Teleport to="body">
+                           <div @click="dropdownToggle" class="dropdown__backdrop"></div>
+                        </Teleport>
+                        <div class="dropdown__option" @click="sort">
+                           <input class="dropdown__radio" v-model="condition" value="expensive" id="sort-expensive"
+                              type="radio" name="filter">
+                           <label class="dropdown__label" @click.stop for="sort-expensive">Сначала дорогие</label>
+                        </div>
+                        <div class="dropdown__option" @click="sort">
+                           <input class="dropdown__radio" v-model="condition" value="cheap" id="sort-cheap" type="radio"
+                              name="filter">
+                           <label class="dropdown__label" @click.stop for="sort-cheap">Сначала недорогие</label>
+                        </div>
+                        <div class="dropdown__option" @click="sort">
+                           <input class="dropdown__radio" v-model="condition" value="popular" id="sort-popular"
+                              type="radio" name="filter">
+                           <label class="dropdown__label" @click.stop for="sort-popular">Сначала популярные</label>
+                        </div>
+                        <div class="dropdown__option" @click="sort">
+                           <input class="dropdown__radio" v-model="condition" value="new" id="sort-new" type="radio"
+                              name="filter">
+                           <label class="dropdown__label" @click.stop for="sort-new">Сначала новые</label>
+                        </div>
+                     </div>
+                     <button class="dropdown__selected" @click="dropdownToggle">
+                        Сначала дорогие
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                           <path d="M16 24l13.856-18h-27.713l13.856 18z"></path>
+                        </svg>
+                     </button>
                   </div>
                </div>
             </div>
@@ -63,6 +111,81 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
 </template>
 
 <style scoped lang="scss">
+.dropdown {
+   &__backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      cursor: pointer;
+   }
+
+   &__select-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 28rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--primary-color);
+      z-index: 10;
+   }
+
+   &__options-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      width: 100%;
+      transition: .3s ease;
+      overflow: hidden;
+      order: 1;
+   }
+
+   &__option {
+      padding: 1.5rem 2.4rem;
+      transition: .3s ease;
+      cursor: pointer;
+   }
+
+   &__selected {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      background-color: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+   }
+
+   &__selected svg {
+      width: 8px;
+      height: 6px;
+      margin-left: 5px;
+   }
+
+   &__option:hover {
+      background-color: var(--color-green);
+   }
+
+   &__radio {
+      display: none;
+   }
+
+   &__label {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+   }
+}
+
 .products {
    position: relative;
    display: flex;

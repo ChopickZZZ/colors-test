@@ -23,7 +23,9 @@ const clearCart = () => cartStore.cartClear()
 
 <template>
    <div v-if="isOpen">
-      <div class="cart__backdrop" @click="cartToggle"></div>
+      <Teleport to="body">
+         <div class="cart__backdrop" @click="cartToggle"></div>
+      </Teleport>
       <div class="cart">
          <div class="cart__top">
             <h3 class="cart__title">Корзина</h3>
@@ -39,7 +41,7 @@ const clearCart = () => cartStore.cartClear()
          </div>
          <div class="cart__content">
             <div class="cart__content-top">
-               <div class="cart__amount">{{  amountParser(colorProducts.length)  }}</div>
+               <div class="cart__amount">{{ amountParser(colorProducts.length) }}</div>
                <button class="cart__btn-clear" @click="clearCart">Очистить список</button>
             </div>
             <div class="cart__items">
@@ -50,7 +52,7 @@ const clearCart = () => cartStore.cartClear()
          <div class="cart__bottom">
             <div class="cart__total-container">
                <div class="cart__sub-title">Итого</div>
-               <strong class="cart__total">{{  totalSum  }}₽</strong>
+               <strong class="cart__total">{{ totalSum }}₽</strong>
             </div>
             <div class="cart__btn-checkout">Оформить заказ</div>
          </div>
