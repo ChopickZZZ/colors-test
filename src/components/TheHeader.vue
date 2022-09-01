@@ -92,6 +92,7 @@ const cartToggle = () => cartStore.toggleCart()
 }
 
 .logo {
+	font-family: 'TT Hoves', sans-serif;
 	position: relative;
 	margin-right: calc(182 / 1790 * 100%);
 

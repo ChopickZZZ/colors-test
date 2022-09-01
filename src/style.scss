@@ -1,3 +1,11 @@
+@font-face {
+	font-family: 'TT Hoves';
+	src: url('../public/fonts/TTHoves-Regular.eot');
+	src: local('☺'), url('../public/fonts/TTHoves-Regular.woff') format('woff'), url('../public/fonts/TTHoves-Regular.ttf') format('truetype'), url('../public/fonts/TTHoves-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
 :root {
 	--color-primary: #1f2020;
 	--color-primary-light: rgba(31, 32, 32, 0.3);
