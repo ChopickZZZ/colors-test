@@ -289,7 +289,7 @@ const cartToggle = () => cartStore.toggleCart()
 
 	&__btn-cart:hover,
 	&__btn:hover svg {
-		transform: scale(1.2);
+		transform: scale(1.15);
 	}
 
 	@media (max-width: 75em) {

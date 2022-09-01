@@ -1,12 +1,18 @@
 
 export const amountParser = (amount: number) => {
-   if (amount === 0) {
+   const words = ['товар', 'товара', 'товаров']
+
+   amount = Math.abs(amount) % 100;
+   const num = amount % 10;
+
+   if (amount === 0)
       return 'Корзина пуста'
-   }
-   else if (amount > 0 && amount < 5) {
-      return amount + ' товара'
-   }
-   else {
-      return amount + ' товаров'
-   }
+   if (amount > 10 && amount < 20)
+      return amount + ' ' + words[2];
+   if (num > 1 && num < 5)
+      return amount + ' ' + words[1];
+   if (num == 1)
+      return amount + ' ' + words[0];
+
+   return amount + ' ' + words[2];
 }

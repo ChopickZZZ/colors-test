@@ -2,7 +2,7 @@
 import { ColorItem } from '../types';
 
 defineProps<{
-   item: ColorItem
+   item: ColorItem,
 }>()
 
 const emit = defineEmits<{
@@ -13,10 +13,10 @@ const emit = defineEmits<{
 <template>
    <div class="card">
       <img class="card__image" :src="item.image" :alt="`${item.id} image`">
-      <p class="card__text">{{  item.title  }}</p>
+      <p class="card__text">{{ item.title }}</p>
       <div class="card__bottom">
-         <div class="card__price">{{  item.price  }} ₽</div>
-         <button class="card__btn" @click="emit('toggle', item.id)">
+         <div class="card__price">{{ item.price }} ₽</div>
+         <button class="card__btn" @click="emit('toggle', item.id)" :class="{ active: item.amountInCart }">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" v-if="!item.amountInCart">
                <path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="3.2"
                   stroke="#000" d="M16 6.667v18.667"></path>
@@ -80,15 +80,25 @@ const emit = defineEmits<{
       transition: .3s ease;
       margin-bottom: 1.4rem;
       cursor: pointer;
+
+      @media (max-width: 75em) {
+         opacity: 1;
+      }
+
+      @media (min-width: 75em) {
+         &:hover {
+            background-color: var(--color-green);
+         }
+      }
+   }
+
+   &__btn.active {
+      background-color: var(--color-green);
    }
 
    &__btn svg {
       width: 1.7rem;
       height: 1.7rem;
-   }
-
-   &__btn:hover {
-      background-color: var(--color-green);
    }
 
    &__btn:focus {

@@ -1,20 +1,34 @@
 <script setup lang="ts">
 import ProductCard from './ProductCard.vue';
+import AppBackdrop from './AppBackdrop.vue';
 import { useColorStore } from '../stores/colors';
 import { useCartStore } from '../stores/cart'
 import { ref, Ref, computed } from '@vue/reactivity';
 import { Filter, Condition } from '../types';
+import { overflowToggle } from '../helpers'
 
 const colorStore = useColorStore()
 const cartStore = useCartStore()
 await colorStore.fetchColors()
 const colors = computed(() => colorStore.filteredColors)
 
+const isFilterOpen = ref(false)
 const isDropdownActive = ref(false)
 const filters: Ref<Filter[]> = ref([])
 const condition: Ref<Condition> = ref('expensive')
 
-const filter = () => colorStore.filterColors(filters)
+const conditionsTextBase = {
+   expensive: 'Сначала дорогие',
+   cheap: 'Сначала недорогие',
+   popular: 'Сначала популярные',
+   new: 'Сначала новые'
+}
+
+const filter = () => {
+   setTimeout(() => {
+      colorStore.filterColors(filters)
+   }, 0)
+}
 const sort = () => {
    setTimeout(() => {
       colorStore.sortColors(condition)
@@ -24,12 +38,7 @@ const sort = () => {
 
 const dropdownToggle = () => {
    isDropdownActive.value = !isDropdownActive.value
-   if (document.body.style.overflow === 'hidden') {
-      document.body.style.overflow = 'auto'
-   }
-   else {
-      document.body.style.overflow = 'hidden'
-   }
+   overflowToggle()
 }
 const toggleItem = (id: string) => cartStore.itemToggle(id)
 
@@ -38,7 +47,9 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
 <template>
    <div class="container">
       <section class="products">
-         <div class="filters" @click="filter">
+         <div class="filters" @click="filter" :class="{ active: isFilterOpen }">
+            <AppBackdrop @backdrop-event="isFilterOpen = false" v-if="isFilterOpen" class="filters__backdrop" />
+            <span class="filters__line"></span>
             <div class="filters__item">
                <input class="filters__checkbox" v-model="filters" value="new" type="checkbox" name="filter" id="new">
                <label class="filters__label" for="new">Новинки</label>
@@ -66,12 +77,11 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
          <div class="colors">
             <div class="colors__top">
                <div class="colors__amount">{{ colors.length }} товаров</div>
+               <button class="colors__filter-btn" @click="isFilterOpen = true">Фильтры</button>
                <div class="colors__dropdown dropdown">
                   <div class="dropdown__select-box">
                      <div class="dropdown__options-container" v-if="isDropdownActive">
-                        <Teleport to="body">
-                           <div @click="dropdownToggle" class="dropdown__backdrop"></div>
-                        </Teleport>
+                        <AppBackdrop @backdrop-event="dropdownToggle" />
                         <div class="dropdown__option" @click="sort">
                            <input class="dropdown__radio" v-model="condition" value="expensive" id="sort-expensive"
                               type="radio" name="filter">
@@ -94,7 +104,7 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
                         </div>
                      </div>
                      <button class="dropdown__selected" @click="dropdownToggle">
-                        Сначала дорогие
+                        {{ conditionsTextBase[condition] }}
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                            <path d="M16 24l13.856-18h-27.713l13.856 18z"></path>
                         </svg>
@@ -111,81 +121,6 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
 </template>
 
 <style scoped lang="scss">
-.dropdown {
-   &__backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      cursor: pointer;
-   }
-
-   &__select-box {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      width: 28rem;
-      font-size: 1.2rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      color: var(--primary-color);
-      z-index: 10;
-   }
-
-   &__options-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: #fff;
-      width: 100%;
-      transition: .3s ease;
-      overflow: hidden;
-      order: 1;
-   }
-
-   &__option {
-      padding: 1.5rem 2.4rem;
-      transition: .3s ease;
-      cursor: pointer;
-   }
-
-   &__selected {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-end;
-      background-color: #fff;
-      border: none;
-      outline: none;
-      cursor: pointer;
-   }
-
-   &__selected svg {
-      width: 8px;
-      height: 6px;
-      margin-left: 5px;
-   }
-
-   &__option:hover {
-      background-color: var(--color-green);
-   }
-
-   &__radio {
-      display: none;
-   }
-
-   &__label {
-      display: block;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-   }
-}
-
 .products {
    position: relative;
    display: flex;
@@ -194,7 +129,28 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
 
 .filters {
    flex: 0 0 calc(303 / 1790 * 100%);
+   transition: transform .3s ease;
    margin-right: 2rem;
+
+   &__backdrop {
+      z-index: 120;
+   }
+
+   &__line {
+      display: none;
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--color-primary);
+      border-radius: 15px;
+      width: 28px;
+      height: 4px;
+
+      @media (max-width: 56.25em) {
+         display: block;
+      }
+   }
 
    &__item {
       display: flex;
@@ -205,7 +161,11 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       margin-bottom: 2rem;
 
       @media (max-width: 56.25em) {
-         margin-bottom: 5rem;
+         margin-bottom: 3rem;
+      }
+
+      @media (max-width: 31.25em) {
+         margin-bottom: 10px;
       }
    }
 
@@ -240,10 +200,15 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
 
    &__checkbox+&__label::after {
       left: .8rem;
-      width: .8rem;
-      height: .8rem;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background-color: var(--color-primary);
+
+      @media (max-width: 87.5em) {
+         width: 6px;
+         height: 6px;
+      }
    }
 
    &__checkbox:checked+&__label::before {
@@ -259,6 +224,25 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       text-transform: uppercase;
       letter-spacing: 0.06em;
    }
+
+   @media (max-width: 56.25em) {
+      transform: translateY(66.5vh);
+      padding: 54px 24px 24px 24px;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 66.5vh;
+      background-color: #fff;
+      z-index: 130;
+      overflow: hidden;
+   }
+}
+
+.filters.active {
+   transform: translateY(0);
 }
 
 .colors {
@@ -271,11 +255,34 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       margin-bottom: 4.4rem;
    }
 
+   &__amount,
+   &__filter-btn {
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+   }
+
    &__amount {
       font-size: 1.2rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.06em;
+
+      @media (max-width: 56.25em) {
+         display: none;
+      }
+   }
+
+   &__filter-btn {
+      display: none;
+      background-color: transparent;
+      border: none;
+      outline: none;
+
+      @media (max-width: 56.25em) {
+         display: block;
+      }
    }
 
    &__products {
@@ -291,59 +298,85 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       @media (max-width: 66.25em) {
          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
       }
+
    }
+
 }
 
 .dropdown {
-   position: relative;
 
-   &__category {
+   &__select-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 28rem;
       font-size: 1.2rem;
       font-weight: 500;
-      text-transform: uppercase;
       letter-spacing: 0.06em;
+      color: var(--primary-color);
+      z-index: 10;
+
+      @media (max-width: 31.25em) {
+         width: 100%;
+         font-size: 1.4rem;
+      }
    }
 
-   &__btn {
-      font-size: 1.2rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background-color: transparent;
-      border: none;
-      margin-right: .5rem;
-      cursor: pointer;
-   }
-
-   &__triangle {}
-
-   &__backdrop {}
-
-   &__list {
+   &__options-container {
       position: absolute;
       top: 0;
-      right: 0;
-      list-style: none;
-      min-width: 28rem;
+      left: 0;
+      background-color: #fff;
+      width: 100%;
+      transition: .3s ease;
+      overflow: hidden;
+      order: 1;
    }
 
-   &__item {
-      display: flex;
+   &__option {
+      padding: 1.5rem 2.4rem;
+      transition: .3s ease;
+      cursor: pointer;
+
+      @media (max-width: 31.25em) {
+         padding: 2rem 3rem;
+      }
+   }
+
+   &__selected {
+      display: inline-flex;
       align-items: center;
-      width: 100%;
-      padding: 1.7rem 2.4rem;
-      font-size: 1.2rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      justify-content: flex-end;
       background-color: #fff;
       border: none;
-      transition: .3s ease;
+      outline: none;
       cursor: pointer;
    }
 
-   &__item:hover {
+   &__selected svg {
+      width: 8px;
+      height: 6px;
+      margin-left: 5px;
+   }
+
+   &__option:hover {
       background-color: var(--color-green);
+   }
+
+   &__radio {
+      display: none;
+   }
+
+   &__label {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+   }
+
+   @media (max-width: 31.25em) {
+      width: 100%;
    }
 }
 </style>

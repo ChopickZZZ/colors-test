@@ -2,6 +2,7 @@ import { useColorStore } from './colors';
 import { ColorItem, Filter } from './../types';
 import { defineStore } from 'pinia'
 import { ref, Ref } from 'vue'
+import { overflowToggle } from '../helpers';
 
 export const useCartStore = defineStore('cart', () => {
 
@@ -42,12 +43,7 @@ export const useCartStore = defineStore('cart', () => {
 
    const toggleCart = () => {
       isCartOpen.value = !isCartOpen.value
-      if (document.body.style.overflow === 'hidden') {
-         document.body.style.overflow = 'auto'
-      }
-      else {
-         document.body.style.overflow = 'hidden'
-      }
+      overflowToggle()
    }
    const cartClear = () => {
       cart.value.forEach(item => item.amountInCart = 0)

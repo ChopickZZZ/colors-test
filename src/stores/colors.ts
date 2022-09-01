@@ -32,14 +32,12 @@ export const useColorStore = defineStore('colors', () => {
    }
 
    const filterColors = (filters: Ref<Filter[]>) => {
-      setTimeout(() => {
-         filteredColors.value = colors.value.filter(color => filters.value.every(fil => {
-            if (fil === 'avaliable') {
-               return color.amount
-            }
-            return color[fil]
-         }))
-      }, 0)
+      filteredColors.value = colors.value.filter(color => filters.value.every(fil => {
+         if (fil === 'avaliable') {
+            return color.amount
+         }
+         return color[fil]
+      }))
    }
 
    const sortColors = (condition: Ref<Condition>) => {

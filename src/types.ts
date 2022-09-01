@@ -13,5 +13,11 @@ export interface ColorItem {
    amountInCart?: number
 }
 
+export interface SliderItem {
+   text: string,
+   title: string,
+   img: string
+}
+
 export type Filter = 'new' | 'avaliable' | 'contract' | 'exclusive' | 'sale'
 export type Condition = 'expensive' | 'cheap' | 'popular' | 'new'

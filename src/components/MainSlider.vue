@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, Autoplay } from 'swiper'
+import { SliderItem } from '../types';
+import { ref, Ref } from 'vue'
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
-import { ref } from 'vue'
 
-const swiperTextObj = ref([
+const swiperTextBase: Ref<SliderItem[]> = ref([
 	{
 		title: 'Краски',
 		text: 'Идеально подходит под цвет стен и других поверхностей. Найди свой идеальный цвет!',
@@ -52,12 +53,12 @@ const swiperTextObj = ref([
 						stroke-linejoin="round" />
 				</svg>
 			</div>
-			<SwiperSlide v-for="(text, idx) in swiperTextObj" :key="idx">
+			<SwiperSlide v-for="(text, idx) in swiperTextBase" :key="idx">
 				<div class="slide" :style="{ 'background-image': `url(${text.img})` }">
 					<div class="container" style="width: 1838px; position: relative;">
 						<div class="slide__inner">
-							<h1 class="slide__title">{{  text.title  }}</h1>
-							<p class="slide__text">{{  text.text  }}</p>
+							<h1 class="slide__title">{{ text.title }}</h1>
+							<p class="slide__text">{{ text.text }}</p>
 						</div>
 					</div>
 				</div>

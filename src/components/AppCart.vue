@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppBackdrop from './AppBackdrop.vue';
 import { useCartStore } from '../stores/cart';
 import { amountParser } from '../use/amountParser'
 import { computed } from 'vue'
@@ -23,9 +24,7 @@ const clearCart = () => cartStore.cartClear()
 
 <template>
    <div v-if="isOpen">
-      <Teleport to="body">
-         <div class="cart__backdrop" @click="cartToggle"></div>
-      </Teleport>
+      <AppBackdrop @backdrop-event="cartToggle" />
       <div class="cart">
          <div class="cart__top">
             <h3 class="cart__title">Корзина</h3>
@@ -72,18 +71,6 @@ const clearCart = () => cartStore.cartClear()
    height: 100vh;
    padding: 4rem;
    background-color: #fff;
-
-   &__backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1;
-      width: 100%;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-      cursor: pointer;
-   }
 
    &__top {
       display: flex;
