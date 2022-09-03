@@ -16,8 +16,8 @@ const emit = defineEmits<{
    <div class="cart__item item">
       <img class="item__img" :src="color.image" alt="Err">
       <div class="item__content">
-         <h4 class="item__title">{{  color.title  }}</h4>
-         <div class="item__price">{{  color.price  }} ₽</div>
+         <h4 class="item__title">{{ color.title }}</h4>
+         <div class="item__price">{{ color.price }} ₽</div>
       </div>
       <div class="item__controls">
          <button class="item__btn-toggle" @click="emit('decrease', color.id)">
@@ -27,7 +27,7 @@ const emit = defineEmits<{
                   stroke-width="3.7333" stroke="#000" d="M3.556 16h24.889"></path>
             </svg>
          </button>
-         <div class="item__amount">{{  color.amountInCart  }}</div>
+         <div class="item__amount">{{ color.amountInCart }}</div>
          <button class="item__btn-toggle" @click="emit('increase', color.id)">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                <title>plus</title>
@@ -101,6 +101,10 @@ const emit = defineEmits<{
       @media (max-width: 31.25em) {
          gap: 1.5rem;
       }
+
+      @media (max-width: 56.25em) {
+         margin-left: 1rem;
+      }
    }
 
    &__amount {
@@ -118,7 +122,12 @@ const emit = defineEmits<{
       background-color: #f2f2f2;
       border: none;
       border-radius: 4px;
+      transition: background-color .3s ease;
       cursor: pointer;
+
+      &:hover {
+         background-color: var(--color-green);
+      }
    }
 
    &__btn-toggle svg {

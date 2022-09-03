@@ -15,11 +15,18 @@ const emit = defineEmits<{
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: 1;
+	z-index: 50;
 	width: 100%;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0);
 	overflow: hidden;
+	transition: background-color .3s ease;
+	pointer-events: none;
 	cursor: pointer;
+}
+
+.backdrop.active {
+	pointer-events: all;
+	background-color: rgba(0, 0, 0, 0.7);
 }
 </style>

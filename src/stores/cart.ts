@@ -1,5 +1,5 @@
 import { useColorStore } from './colors';
-import { ColorItem, Filter } from './../types';
+import { ColorItem } from './../types';
 import { defineStore } from 'pinia'
 import { ref, Ref } from 'vue'
 import { overflowToggle } from '../helpers';

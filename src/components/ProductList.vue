@@ -33,7 +33,7 @@ const sort = () => {
    setTimeout(() => {
       colorStore.sortColors(condition)
       dropdownToggle()
-   })
+   }, 0)
 }
 
 const dropdownToggle = () => {
@@ -48,7 +48,8 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
    <div class="container">
       <section class="products">
          <div class="filters" @click="filter" :class="{ active: isFilterOpen }">
-            <AppBackdrop @backdrop-event="isFilterOpen = false" v-if="isFilterOpen" class="filters__backdrop" />
+            <AppBackdrop @backdrop-event="isFilterOpen = false" :class="{ active: isFilterOpen }"
+               class="filters__backdrop" style="z-index: 150" />
             <span class="filters__line"></span>
             <div class="filters__item">
                <input class="filters__checkbox" v-model="filters" value="new" type="checkbox" name="filter" id="new">
@@ -80,8 +81,8 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
                <button class="colors__filter-btn" @click="isFilterOpen = true">Фильтры</button>
                <div class="colors__dropdown dropdown">
                   <div class="dropdown__select-box">
-                     <div class="dropdown__options-container" v-if="isDropdownActive">
-                        <AppBackdrop @backdrop-event="dropdownToggle" />
+                     <div class="dropdown__options-container" :class="{ 'open': isDropdownActive }">
+                        <AppBackdrop @backdrop-event="dropdownToggle" :class="{ active: isDropdownActive }" />
                         <div class="dropdown__option" @click="sort">
                            <input class="dropdown__radio" v-model="condition" value="expensive" id="sort-expensive"
                               type="radio" name="filter">
@@ -125,10 +126,14 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
    position: relative;
    display: flex;
    padding: 7.2rem 0 14.7rem 0;
+
+   @media (max-width: 37.5em) {
+      padding: 0 0 64px 0;
+   }
 }
 
 .filters {
-   flex: 0 0 calc(303 / 1790 * 100%);
+   flex: 0 0 calc(283 / 1790 * 100%);
    transition: transform .3s ease;
    margin-right: 2rem;
 
@@ -236,7 +241,7 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       width: 100%;
       height: 66.5vh;
       background-color: #fff;
-      z-index: 130;
+      z-index: 160;
       overflow: hidden;
    }
 }
@@ -290,6 +295,7 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
       column-gap: 2.4rem;
       row-gap: 1.6rem;
+      justify-items: center;
 
       @media (max-width: 68.125em) {
          grid-template-columns: repeat(auto-fit, minmax(23rem, 1fr));
@@ -297,6 +303,12 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
 
       @media (max-width: 66.25em) {
          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+      }
+
+      @media (max-width: 31.25em) {
+         grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+         column-gap: 15px;
+         row-gap: 24px;
       }
 
    }
@@ -315,7 +327,6 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       font-weight: 500;
       letter-spacing: 0.06em;
       color: var(--primary-color);
-      z-index: 10;
 
       @media (max-width: 31.25em) {
          width: 100%;
@@ -332,6 +343,11 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       transition: .3s ease;
       overflow: hidden;
       order: 1;
+      opacity: 0;
+      transform: translateY(-10rem);
+      transition: .3s ease;
+      pointer-events: none;
+      z-index: 65;
    }
 
    &__option {
@@ -364,6 +380,10 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
       background-color: var(--color-green);
    }
 
+   &__radio:active+&__option {
+      background-color: var(--color-green);
+   }
+
    &__radio {
       display: none;
    }
@@ -378,5 +398,11 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
    @media (max-width: 31.25em) {
       width: 100%;
    }
+}
+
+.dropdown__options-container.open {
+   opacity: 1;
+   transform: translateY(0);
+   pointer-events: all;
 }
 </style>

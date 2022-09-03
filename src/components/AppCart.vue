@@ -23,18 +23,18 @@ const clearCart = () => cartStore.cartClear()
 </script>
 
 <template>
-   <div v-if="isOpen">
-      <AppBackdrop @backdrop-event="cartToggle" />
-      <div class="cart">
+   <div class="cart-container">
+      <AppBackdrop @backdrop-event="cartToggle" :class="{ active: isOpen }" />
+      <div :class="['cart', { active: isOpen }]">
          <div class="cart__top">
             <h3 class="cart__title">Корзина</h3>
             <button class="cart__btn-close" @click="cartToggle">
                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                   <title>x</title>
                   <path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4"
-                     stroke-width="1.8667" stroke="#000" d="M24 8l-16 16"></path>
+                     stroke-width="1.8667" stroke="#1F2020" d="M24 8l-16 16"></path>
                   <path fill="none" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4"
-                     stroke-width="1.8667" stroke="#000" d="M8 8l16 16"></path>
+                     stroke-width="1.8667" stroke="#1F2020" d="M8 8l16 16"></path>
                </svg>
             </button>
          </div>
@@ -71,6 +71,8 @@ const clearCart = () => cartStore.cartClear()
    height: 100vh;
    padding: 4rem;
    background-color: #fff;
+   transition: transform .3s ease;
+   transform: translateX(60rem);
 
    &__top {
       display: flex;
@@ -111,8 +113,6 @@ const clearCart = () => cartStore.cartClear()
       justify-content: space-between;
    }
 
-   &__total-container {}
-
    &__total {
       font-size: 3rem;
       color: var(--color-primary);
@@ -149,7 +149,12 @@ const clearCart = () => cartStore.cartClear()
       background-color: transparent;
       border-radius: 50%;
       border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: border-color .3s ease;
       cursor: pointer;
+   }
+
+   &__btn-close:hover {
+      border-color: var(--coolor-primary);
    }
 
    &__btn-close svg {
@@ -164,7 +169,12 @@ const clearCart = () => cartStore.cartClear()
       text-transform: uppercase;
       border: none;
       background-color: transparent;
+      transition: color .3s ease;
       cursor: pointer;
+
+      &:hover {
+         color: var(--color-primary);
+      }
    }
 
    &__btn-checkout {
@@ -178,7 +188,16 @@ const clearCart = () => cartStore.cartClear()
       background-color: var(--color-green);
       border: none;
       border-radius: 4px;
+      transition: background-color .3s ease;
       cursor: pointer;
+
+      &:hover {
+         background-color: darken(#7bb899, 12px);
+      }
+
+      &:active {
+         background-color: lighten(darken(#7bb899, 12px), 5px);
+      }
 
       @media (max-width: 31.25em) {
          padding: 1.5rem 4.35rem;
@@ -188,12 +207,19 @@ const clearCart = () => cartStore.cartClear()
    @media (max-width: 75em) {
       gap: 2rem;
       width: 50rem;
+      transform: translateX(50rem);
       padding: 2rem;
    }
 
    @media (max-width: 56.25em) {
       width: 100%;
+      transform: translateX(100%);
       padding: 3rem;
+      overflow: auto;
    }
+}
+
+.cart.active {
+   transform: translateX(0);
 }
 </style>

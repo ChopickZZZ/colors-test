@@ -11,7 +11,7 @@ const swiperTextBase: Ref<SliderItem[]> = ref([
 	{
 		title: 'Краски',
 		text: 'Идеально подходит под цвет стен и других поверхностей. Найди свой идеальный цвет!',
-		img: 'https://c.wallhere.com/photos/25/f6/Lamborghini_Gallardo_Lamborghini_Super_Car_vehicle_car-233958.jpg!d'
+		img: 'https://i.postimg.cc/PJ7X3fbr/Rectangle-645.png'
 	},
 	{
 		title: 'Краски',
@@ -38,12 +38,13 @@ const swiperTextBase: Ref<SliderItem[]> = ref([
 
 <template>
 	<div class="slider">
-		<div class="container" style="position: relative">
+		<div class="container">
 			<ul class="menu-path">
 				<li class="menu-path__item">Главная</li>
 				<li class="menu-path__item">Продукты</li>
 				<li class="menu-path__item">Краски</li>
 			</ul>
+			<h1 class="slider__main-title">Краски</h1>
 		</div>
 		<Swiper :modules="[Pagination, Navigation, Autoplay]" :navigation="{ nextEl: '.next-arrow' }"
 			:pagination="{ clickable: true }" :space-between="20" :loop="true">
@@ -70,6 +71,30 @@ const swiperTextBase: Ref<SliderItem[]> = ref([
 <style scoped lang="scss">
 .slider {
 	position: relative;
+
+	&__main-title {
+		display: none;
+		color: var(--color-primary);
+		font-size: 36px;
+		line-height: 1;
+		letter-spacing: -0.04em;
+
+		@media (max-width: 37.5em) {
+			display: block;
+		}
+	}
+
+	@media (max-width: 37.5em) {
+		padding: 16px 0 48px 0;
+	}
+}
+
+.container {
+	position: relative;
+
+	@media (max-width: 37.5em) {
+		position: static;
+	}
 }
 
 .swiper {
@@ -135,10 +160,14 @@ const swiperTextBase: Ref<SliderItem[]> = ref([
 
 	&__item {
 		position: relative;
-		font-size: 1rem;
+		font-size: 10px;
 		text-transform: uppercase;
 		color: var(--color-light);
 		letter-spacing: 0.06em;
+
+		@media (max-width: 37.5em) {
+			color: var(--color-primary-light);
+		}
 	}
 
 	&__item:not(:last-child)::after {
@@ -151,6 +180,12 @@ const swiperTextBase: Ref<SliderItem[]> = ref([
 		height: 3px;
 		border-radius: 50%;
 		background-color: currentColor;
+	}
+
+	@media (max-width: 37.5em) {
+		position: static;
+		padding-left: 0;
+		margin-bottom: 48px;
 	}
 }
 </style>

@@ -34,14 +34,57 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 .card {
+   display: flex;
+   flex-direction: column;
    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
    cursor: pointer;
 
+   &:nth-last-child(-n + 5) {
+      border: none;
+   }
+
+   @media (max-width: 1670px) {
+      &:nth-last-child(-n + 5) {
+         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      &:nth-last-child(-n + 3) {
+         border: none;
+      }
+   }
+
+   @media (max-width: 1400px) {
+      &:nth-last-child(-n + 5) {
+         border: none;
+      }
+   }
+
+   @media (max-width: 1347px) {
+      &:nth-last-child(-n + 5) {
+         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      &:nth-last-child(-n + 3) {
+         border: none;
+      }
+   }
+
+   @media (max-width: 568px) {
+      &:nth-last-child(-n + 5) {
+         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      &:nth-last-child(-n + 1) {
+         border: none;
+      }
+   }
+
    &__image {
       width: 100%;
+      height: 100%;
       max-width: 27.8rem;
       max-height: 27.8rem;
-      margin-bottom: 1.6rem;
+      margin-bottom: 16px;
       object-fit: cover;
    }
 
@@ -52,12 +95,23 @@ const emit = defineEmits<{
       letter-spacing: 0.02em;
       line-height: 112%;
       margin-bottom: 1.6rem;
+      flex: 1;
+
+      @media (max-width: 31.25em) {
+         margin-bottom: 20px;
+      }
    }
 
    &__bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 1.4rem;
+
+      @media (max-width: 31.25em) {
+         margin-bottom: 34px;
+      }
+
    }
 
    &__price {
@@ -72,13 +126,12 @@ const emit = defineEmits<{
       justify-content: center;
       font-weight: 600;
       font-size: 1.6rem;
-      padding: .6rem 3.4rem;
+      padding: .75rem 3.4rem;
       background-color: #f2f2f2;
       border-radius: .8rem;
       border: none;
       opacity: 0;
       transition: .3s ease;
-      margin-bottom: 1.4rem;
       cursor: pointer;
 
       @media (max-width: 75em) {
@@ -89,6 +142,10 @@ const emit = defineEmits<{
          &:hover {
             background-color: var(--color-green);
          }
+      }
+
+      @media (max-width: 31.25em) {
+         padding: .65rem 1.65rem;
       }
    }
 
@@ -107,6 +164,46 @@ const emit = defineEmits<{
 
    &:hover &__btn {
       opacity: 1;
+   }
+}
+
+.card:nth-last-child(-n + 5) .card__bottom {
+   margin-bottom: 0;
+}
+
+@media (max-width: 1670px) {
+   .card:nth-last-child(-n + 5) .card__bottom {
+      margin-bottom: 1.4rem;
+   }
+
+   .card:nth-last-child(-n + 3) .card__bottom {
+      margin-bottom: 0;
+   }
+}
+
+@media (max-width: 1400px) {
+   .card:nth-last-child(-n + 5) .card__bottom {
+      margin-bottom: 0;
+   }
+}
+
+@media (max-width: 1347px) {
+   .card:nth-last-child(-n + 5) .card__bottom {
+      margin-bottom: 1.4rem;
+   }
+
+   .card:nth-last-child(-n + 3) .card__bottom {
+      margin-bottom: 0;
+   }
+}
+
+@media (max-width: 568px) {
+   .card:nth-last-child(-n + 5) .card__bottom {
+      margin-bottom: 1.4rem;
+   }
+
+   .card:nth-last-child(-n + 1) .card__bottom {
+      margin-bottom: 0;
    }
 }
 </style>

@@ -11,3 +11,6 @@ import AppCart from '../components/AppCart.vue';
 	</Suspense>
 	<AppCart />
 </template>
+
+<style>
+</style>

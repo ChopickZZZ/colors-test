@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useCartStore } from '../stores/cart';
+import AppBackdrop from './AppBackdrop.vue';
 const cartStore = useCartStore()
 
 const menuShow = ref(false)
@@ -36,6 +37,7 @@ const cartToggle = () => cartStore.toggleCart()
 					<a class="navigation-list__link" href="#">Найти магазин</a>
 				</li>
 			</ul>
+			<AppBackdrop :class="{ active: menuShow }" @backdrop-event="menuShow = false" />
 			<div class="order">
 				<div class="order__phone">+7(495)221-77-69</div>
 				<button class="order__btn-inline">Заказать звонок</button>
@@ -85,6 +87,7 @@ const cartToggle = () => cartStore.toggleCart()
 	height: 10.4rem;
 	display: flex;
 	align-items: center;
+	border-bottom: 1px solid rgba(31, 32, 32, 0.06);
 
 	@media (max-width: 37.5em) {
 		justify-content: space-between;
@@ -192,7 +195,7 @@ const cartToggle = () => cartStore.toggleCart()
 		transition: .25s ease;
 
 		@media (max-width: 56.25em) {
-			font-size: 2.5rem;
+			font-size: 2rem;
 			font-weight: 500;
 		}
 	}
@@ -234,7 +237,12 @@ const cartToggle = () => cartStore.toggleCart()
 		border: none;
 		font-size: 1.4rem;
 		color: var(--color-primary-light);
+		transition: color .3s ease;
 		cursor: pointer;
+	}
+
+	&__btn-inline:hover {
+		color: var(--color-primary);
 	}
 
 	&__btn-inline:focus {
