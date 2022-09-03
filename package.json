@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "postcss-nested": "^5.0.6",
     "swiper": "^8.3.2",
     "vue": "^3.2.37"
   },

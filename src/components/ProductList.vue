@@ -58,7 +58,7 @@ const toggleItem = (id: string) => cartStore.itemToggle(id)
             <div class="filters__item">
                <input class="filters__checkbox" v-model="filters" value="avaliable" type="checkbox" name="filter"
                   id="avaliable">
-               <label class="filters__label" for="avaliable">Есть в наличие</label>
+               <label class="filters__label" for="avaliable">Есть в наличии</label>
             </div>
             <div class="filters__item">
                <input class="filters__checkbox" v-model="filters" value="contract" type="checkbox" name="filter"

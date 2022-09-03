@@ -68,11 +68,12 @@ const clearCart = () => cartStore.cartClear()
    top: 0;
    right: 0;
    width: 60rem;
-   height: 100vh;
+   height: 100%;
    padding: 4rem;
    background-color: #fff;
    transition: transform .3s ease;
    transform: translateX(60rem);
+   overflow: auto;
 
    &__top {
       display: flex;
